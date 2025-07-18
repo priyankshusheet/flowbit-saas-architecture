@@ -1,74 +1,85 @@
+Here is the **improved and polished version of your README.md**, with enhanced formatting, clarity, structure, and emphasis on professional tone, while preserving your content:
 
-# 🏢 Multi-Tenant SaaS App — Flowbit Technical Challenge
+---
 
-This project is a complete multi-tenant SaaS application that includes:
+# 🏢 Multi-Tenant SaaS App – Flowbit Technical Challenge
 
-- 🔐 Authentication & RBAC with JWT
-- 🏢 Strict Tenant Data Isolation
-- 🧩 Microfrontend Architecture via Webpack Module Federation
-- 🔁 n8n Workflow Engine Integration
-- 🐳 Fully Containerized with Docker Compose
+A full-stack multi-tenant SaaS platform designed for the Flowbit technical challenge, showcasing:
+
+* 🔐 **Authentication & Role-Based Access Control** (JWT + Bcrypt)
+* 🏢 **Strict Tenant Data Isolation**
+* 🧩 **Microfrontend Architecture** using Webpack Module Federation
+* 🔁 **n8n Workflow Engine Integration**
+* 🐳 **Containerized Deployment** via Docker Compose
 
 ---
 
 ## 🧠 Architecture Overview
 
 ```
-
 ┌─────────────┐   ┌──────────────────┐   ┌────────────────┐
 │ React Shell │ → │ SupportTicketsApp│ → │ Other MFEs     │
-│ (3000)      │   │ (3001)           │   │                │
+│   (3000)    │   │    (3001)        │   │    (future)    │
 └────┬────────┘   └──────────────────┘   └────────────────┘
-│
-▼
+     │
+     ▼
 ┌────────────────────────┐
-│      Node.js API       │
-│       (5000)           │
+│       Node.js API      │
+│        (5000)          │
 └────────┬───────────────┘
-▼
-┌──────────────┐   ┌─────────────┐
-│   MongoDB    │   │    n8n      │
-│   (27017)    │   │   (5678)    │
-└──────────────┘   └────┬────────┘
-▼
-┌────────────┐
-│   ngrok    │
-│  (4040)    │
-└────────────┘
-
-````
+         ▼
+┌──────────────┐     ┌─────────────┐
+│   MongoDB    │     │     n8n     │
+│   (27017)    │     │   (5678)    │
+└──────────────┘     └────┬────────┘
+                          ▼
+                   ┌────────────┐
+                   │   ngrok    │
+                   │  (4040)    │
+                   └────────────┘
+```
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Quick Start
 
 ### 🛠️ Prerequisites
-- [Node.js](https://nodejs.org/) v18+
-- [Docker & Docker Compose](https://docs.docker.com/get-docker/)
-- Optional: `ngrok` for webhook tunneling
 
-### ⚙️ 1. Clone & Setup
+* [Node.js v18+](https://nodejs.org/)
+* [Docker & Docker Compose](https://docs.docker.com/get-docker/)
+* (Optional) [ngrok](https://ngrok.com/) – for webhook testing
+
+---
+
+### ⚙️ Step 1: Clone & Setup
+
 ```bash
-git clone https://github.com/your-username/flowbit-challenge.git
+git clone https://github.com/priyankshusheet/flowbit-saas-architecture.git
 cd flowbit-challenge
-````
+```
 
-### 🐳 2. Start All Containers
+---
+
+### 🐳 Step 2: Start All Containers
 
 ```bash
 docker-compose up --build
 ```
 
-Wait for \~30 seconds. You can watch logs via:
+> Wait \~30 seconds for all services to initialize.
+
+Check logs:
 
 ```bash
 docker-compose logs -f
 ```
 
-### 🌱 3. Seed Users
+---
+
+### 🌱 Step 3: Seed Initial Users
 
 ```bash
-# Inside api/scripts/seed.js (run only once)
+# One-time seed script
 node api/scripts/seed.js
 ```
 
@@ -78,13 +89,13 @@ node api/scripts/seed.js
 
 ### 🏢 LogisticsCo
 
-* Admin: `admin@logisticsco.com` / `admin123`
-* User: `user@logisticsco.com` / `user123`
+* **Admin:** `admin@logisticsco.com` / `admin123`
+* **User:** `user@logisticsco.com` / `user123`
 
 ### 🛒 RetailGmbH
 
-* Admin: `admin@retailgmbh.com` / `admin123`
-* User: `user@retailgmbh.com` / `user123`
+* **Admin:** `admin@retailgmbh.com` / `admin123`
+* **User:** `user@retailgmbh.com` / `user123`
 
 ---
 
@@ -92,7 +103,7 @@ node api/scripts/seed.js
 
 ```
 flowbit-challenge/
-├── api/                 # Backend (Node.js + Express)
+├── api/                      # Node.js backend
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
@@ -101,36 +112,36 @@ flowbit-challenge/
 │   ├── registry.json
 │   └── server.js
 │
-├── react-shell/         # Main React App (host)
+├── react-shell/              # Main React app (host)
 │   ├── src/
 │   ├── webpack.config.js
 │   └── package.json
 │
-├── support-tickets-app/ # Microfrontend (remote)
+├── support-tickets-app/      # Microfrontend (remote)
 │   ├── src/
 │   ├── webpack.config.js
 │   └── package.json
 │
-├── docker-compose.yml
-├── README.md
-└── .env
+├── docker-compose.yml        # Service orchestration
+├── .env                      # Secrets & config
+└── README.md
 ```
 
 ---
 
 ## ⚙️ API Overview
 
-### Auth
+### 🧾 Authentication
 
-* `POST /auth/login` – Login with email/password
+* `POST /auth/login` – User login
 * `GET /me` – Get current user
-* `GET /me/screens` – Get tenant-specific screens (from `registry.json`)
+* `GET /me/screens` – Get screens based on tenant
 
-### Tickets (Tenant-aware)
+### 🎟️ Ticket System (Multi-Tenant Aware)
 
-* `GET /api/tickets` – Get tickets for tenant
-* `POST /api/tickets` – Create ticket → Triggers n8n
-* `POST /webhook/ticket-done` – Callback from n8n to update ticket
+* `GET /api/tickets` – List tickets (by tenant)
+* `POST /api/tickets` – Create a new ticket → triggers n8n
+* `POST /webhook/ticket-done` – Webhook from n8n → update ticket
 
 ---
 
@@ -138,113 +149,122 @@ flowbit-challenge/
 
 ### React Shell (`react-shell`)
 
-* Auth + Navigation Sidebar
-* Loads MFEs dynamically via `ModuleFederationPlugin`
+* Handles login, navigation
+* Loads MFEs using Module Federation
 
 ```js
-// webpack.config.js in shell
+// webpack.config.js (Shell)
 remotes: {
-  supportMfe: 'supportMfe@http://localhost:3001/remoteEntry.js'
+  supportMfe: 'supportMfe@http://localhost:3001/remoteEntry.js',
 }
 ```
 
-### Support Tickets App (`support-tickets-app`)
+---
 
-* Remote MFE
-* Exposes: `./SupportTicketsApp`
+### SupportTicketsApp (`support-tickets-app`)
+
+* Microfrontend that handles support ticket UI
+* Exposes `./SupportTicketsApp`
 
 ```js
-// webpack.config.js in support MFE
+// webpack.config.js (MFE)
 exposes: {
-  './SupportTicketsApp': './src/SupportTicketsApp'
+  './SupportTicketsApp': './src/SupportTicketsApp',
 }
 ```
 
 ---
 
-## 🔁 n8n Workflow Integration
+## 🔁 Workflow Integration – n8n
 
-* Ticket creation triggers a workflow via HTTP node
-* n8n calls `/webhook/ticket-done` with a secret
-* Backend verifies, updates status in Mongo
-* React polls (or WebSocket) for status update
-
----
-
-## 🧪 Testing
-
-### ✅ Unit Test for Data Isolation
-
-* Run `npm test` inside `api/`
-* Confirms Admin A can't read Admin B’s data
+1. Ticket created via POST `/api/tickets`
+2. Backend sends webhook to n8n
+3. n8n processes ticket (delay, priority check, etc.)
+4. n8n calls `/webhook/ticket-done` with `X-Webhook-Secret`
+5. Backend validates, updates Mongo
+6. Frontend polls or listens for status update
 
 ---
 
-## 📦 Tech Stack
+## ✅ Unit Testing
 
-| Layer    | Tech                            |
-| -------- | ------------------------------- |
-| Frontend | React + Webpack MFE + Tailwind  |
-| Backend  | Node.js + Express + JWT + Mongo |
-| Workflow | [n8n.io](https://n8n.io)        |
-| Database | MongoDB                         |
-| DevOps   | Docker, Docker Compose          |
+* Run tests to verify tenant isolation logic
 
----
+```bash
+cd api/
+npm test
+```
 
-## 🔐 Security Features
-
-* JWT Auth with tenant & role info
-* Role-based route restriction (`/admin/*`)
-* Webhook secret validation
-* `customerId` added to every DB doc
+✅ Ensures Admin A cannot access Admin B’s data.
 
 ---
 
-## ✅ Requirements Coverage
+## 🛠️ Tech Stack
 
-| Feature                            | Status |
-| ---------------------------------- | ------ |
-| Auth & RBAC                        | ✅      |
-| Tenant Data Isolation              | ✅      |
-| Registry-based MFE Routing         | ✅      |
-| Dynamic MFE Loading via Webpack    | ✅      |
-| n8n Workflow Round-trip            | ✅      |
-| Containerized Environment          | ✅      |
-| Unit Test for Data Isolation       | ✅      |
-| README + Architecture + Demo Video | ✅      |
+| Layer    | Stack                                          |
+| -------- | ---------------------------------------------- |
+| Frontend | React, Tailwind CSS, Webpack Module Federation |
+| Backend  | Node.js, Express, MongoDB, JWT                 |
+| Workflow | [n8n](https://n8n.io/)                         |
+| DevOps   | Docker, Docker Compose, ngrok                  |
+| Testing  | Jest, Custom Middleware                        |
+
+---
+
+## 🔐 Security Highlights
+
+* JWT with embedded `customerId` & `role`
+* Role-based access: Admin vs User
+* Route protection via middleware
+* All data tagged by tenant
+* Webhook secret header validation
+
+---
+
+## ✅ Feature Checklist
+
+| Requirement                       | Status |
+| --------------------------------- | ------ |
+| ✅ Authentication + RBAC           | ✅      |
+| ✅ Tenant Data Isolation           | ✅      |
+| ✅ Microfrontend Routing           | ✅      |
+| ✅ Webpack Module Federation       | ✅      |
+| ✅ n8n Round-trip Integration      | ✅      |
+| ✅ Webhook Verification            | ✅      |
+| ✅ Unit Test: Tenant Isolation     | ✅      |
+| ✅ Docker + Compose + Setup Script | ✅      |
+| ✅ Architecture Diagram + Docs     | ✅      |
 
 ---
 
 ## 🆘 Troubleshooting
 
-| Problem                  | Solution                                   |
-| ------------------------ | ------------------------------------------ |
-| Port already in use      | Change in `docker-compose.yml`             |
-| n8n not triggering       | Ensure ngrok is forwarding properly        |
-| MFE not loading          | Check remote URL, module name in shell     |
-| Token missing or invalid | Check `.env` for `JWT_SECRET` and re-login |
+| Problem                | Solution                                |
+| ---------------------- | --------------------------------------- |
+| Port already in use    | Update `docker-compose.yml`             |
+| MFE not loading        | Check remoteEntry.js path & port        |
+| Webhook not received   | Ensure ngrok is running & forwarding    |
+| Token missing/invalid  | Re-login or check JWT\_SECRET in `.env` |
+| Mongo connection error | Confirm Mongo container is running      |
 
 ---
 
-## 👨‍💻 Author
+## 🙋‍♂️ Author
 
 **Priyankshu Sheet**
-[LinkedIn](https://www.linkedin.com/in/priyankshusheet) | [GitHub](https://github.com/priyankshusheet)
-Email: [priyankshu.sheet123@gmail.com](mailto:priyankshu.sheet123@gmail.com)
+📬 [priyankshu.sheet123@gmail.com](mailto:priyankshu.sheet123@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/priyankshusheet)
+💻 [GitHub](https://github.com/priyankshusheet)
 
 ---
 
-**🚀 Built with love for Flowbit — July 2025**
+## 🏁 Final Note
 
-```
+This is a fully working multi-tenant SaaS app built for Flowbit’s technical challenge, featuring modular microfrontend architecture, secure APIs, tenant-specific UI, and n8n integration – all packed in a Dockerized environment with seamless dev experience.
 
 ---
 
-Let me know if you’d like me to:
-- Customize this for FastAPI (if you're using Python, though right now you're on Node)
-- Add visuals or badges (e.g. Docker, MongoDB, etc.)
-- Auto-generate a diagram for `README.md`
+**🚀 Built with love for Flowbit – July 2025**
+**🎬 Demo video submitted as part of final deliverables**
 
-You're 99% done. Time to shine on that demo video 🌟
-```
+---
