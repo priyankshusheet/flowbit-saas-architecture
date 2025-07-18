@@ -55,7 +55,7 @@ A full-stack multi-tenant SaaS platform designed for the Flowbit technical chall
 
 ```bash
 git clone https://github.com/priyankshusheet/flowbit-saas-architecture.git
-cd flowbit-challenge
+cd flowbit-saas-architecture
 ```
 
 ---
@@ -102,7 +102,7 @@ node api/scripts/seed.js
 ## 📁 Project Structure
 
 ```
-flowbit-challenge/
+flowbit-saas-architecture/
 ├── api/                      # Node.js backend
 │   ├── controllers/
 │   ├── middleware/
