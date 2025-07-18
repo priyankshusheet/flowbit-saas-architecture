@@ -1,7 +1,3 @@
-Here is the **improved and polished version of your README.md**, with enhanced formatting, clarity, structure, and emphasis on professional tone, while preserving your content:
-
----
-
 # 🏢 Multi-Tenant SaaS App – Flowbit Technical Challenge
 
 A full-stack multi-tenant SaaS platform designed for the Flowbit technical challenge, showcasing:
